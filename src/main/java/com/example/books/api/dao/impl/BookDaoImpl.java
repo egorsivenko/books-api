@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -29,6 +30,12 @@ public class BookDaoImpl implements BookDao {
     public Optional<Book> findOne(String isbn) {
         String sql = "SELECT isbn, title, author_id FROM books WHERE isbn = ?";
         return jdbcTemplate.query(sql, new BookRowMapper(), isbn).stream().findFirst();
+    }
+
+    @Override
+    public List<Book> findAll() {
+        String sql = "SELECT isbn, title, author_id FROM books";
+        return jdbcTemplate.query(sql, new BookRowMapper());
     }
 
     public static class BookRowMapper implements RowMapper<Book> {

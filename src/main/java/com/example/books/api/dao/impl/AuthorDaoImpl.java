@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -29,6 +30,12 @@ public class AuthorDaoImpl implements AuthorDao {
     public Optional<Author> findOne(Long id) {
         String sql = "SELECT id, name, age FROM authors WHERE id = ?";
         return jdbcTemplate.query(sql, new AuthorRowMapper(), id).stream().findFirst();
+    }
+
+    @Override
+    public List<Author> findAll() {
+        String sql = "SELECT id, name, age FROM authors";
+        return jdbcTemplate.query(sql, new AuthorRowMapper());
     }
 
     public static class AuthorRowMapper implements RowMapper<Author> {

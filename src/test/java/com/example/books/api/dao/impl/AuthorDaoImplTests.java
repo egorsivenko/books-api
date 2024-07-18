@@ -47,4 +47,14 @@ public class AuthorDaoImplTests {
                 eq(id)
         );
     }
+
+    @Test
+    public void testThatFindAllAuthorsGeneratesCorrectSql() {
+        authorDao.findAll();
+
+        verify(jdbcTemplate).query(
+                eq("SELECT id, name, age FROM authors"),
+                any(AuthorRowMapper.class)
+        );
+    }
 }
