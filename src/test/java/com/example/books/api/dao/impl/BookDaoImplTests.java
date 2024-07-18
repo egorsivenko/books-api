@@ -1,5 +1,6 @@
 package com.example.books.api.dao.impl;
 
+import com.example.books.api.TestDataUtil;
 import com.example.books.api.dao.impl.BookDaoImpl.BookRowMapper;
 import com.example.books.api.domain.Book;
 import org.junit.jupiter.api.Test;
@@ -24,11 +25,7 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatCreateBookGeneratesCorrectSql() {
-        Book book = Book.builder()
-                .isbn("978-1-23456-786-9")
-                .title("The Enchanted Forest")
-                .authorId(1L)
-                .build();
+        Book book = TestDataUtil.createTestBook();
 
         bookDao.create(book);
 

@@ -1,5 +1,6 @@
 package com.example.books.api.dao.impl;
 
+import com.example.books.api.TestDataUtil;
 import com.example.books.api.dao.impl.AuthorDaoImpl.AuthorRowMapper;
 import com.example.books.api.domain.Author;
 import org.junit.jupiter.api.Test;
@@ -24,11 +25,7 @@ public class AuthorDaoImplTests {
 
     @Test
     public void testThatCreateAuthorGeneratesCorrectSql() {
-        Author author = Author.builder()
-                .id(1L)
-                .name("Olivia Brooks")
-                .age(37)
-                .build();
+        Author author = TestDataUtil.createTestAuthorA();
 
         authorDao.create(author);
 
