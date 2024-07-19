@@ -31,27 +31,27 @@ public class TestDataUtil {
                 .build();
     }
 
-    public Book createTestBookA() {
+    public Book createTestBookA(Author author) {
         return Book.builder()
                 .isbn("978-1-23456-786-9")
                 .title("The Enchanted Forest")
-                .authorId(1L)
+                .author(author)
                 .build();
     }
 
-    public Book createTestBookB() {
+    public Book createTestBookB(Author author) {
         return Book.builder()
                 .isbn("978-1-23456-788-3")
                 .title("Beneath the Shadows")
-                .authorId(2L)
+                .author(author)
                 .build();
     }
 
-    public Book createTestBookC() {
+    public Book createTestBookC(Author author) {
         return Book.builder()
                 .isbn("978-1-23456-787-6")
                 .title("Whispers in the Wind")
-                .authorId(3L)
+                .author(author)
                 .build();
     }
 }
