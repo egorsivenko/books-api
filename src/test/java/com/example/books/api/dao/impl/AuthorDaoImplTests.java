@@ -70,4 +70,16 @@ public class AuthorDaoImplTests {
                 eq(author.getId()), eq(author.getName()), eq(author.getAge()), eq(id)
         );
     }
+
+    @Test
+    public void testThatDeleteAuthorGeneratesCorrectSql() {
+        Long id = 1L;
+
+        authorDao.delete(id);
+
+        verify(jdbcTemplate).update(
+                eq("DELETE FROM authors WHERE id = ?"),
+                eq(id)
+        );
+    }
 }
