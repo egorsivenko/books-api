@@ -8,11 +8,13 @@ import com.example.books.api.service.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AuthorController {
@@ -38,5 +40,12 @@ public class AuthorController {
         return authorEntities.stream()
                 .map(authorMapper::mapTo)
                 .toList();
+    }
+
+    @GetMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDto> getAuthor(@PathVariable Long id) {
+        Optional<AuthorEntity> optionalAuthor = authorService.findById(id);
+        return optionalAuthor.map(author -> new ResponseEntity<>(authorMapper.mapTo(author), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
