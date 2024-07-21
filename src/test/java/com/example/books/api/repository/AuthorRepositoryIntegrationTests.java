@@ -1,7 +1,7 @@
 package com.example.books.api.repository;
 
 import com.example.books.api.TestDataUtil;
-import com.example.books.api.domain.Author;
+import com.example.books.api.domain.entity.AuthorEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,50 +28,50 @@ public class AuthorRepositoryIntegrationTests {
 
     @Test
     public void testThatAuthorCanBeCreatedAndRecalled() {
-        Author author = TestDataUtil.createTestAuthorA();
-        authorRepository.save(author);
+        AuthorEntity authorEntity = TestDataUtil.createTestAuthorA();
+        authorRepository.save(authorEntity);
 
-        Optional<Author> result = authorRepository.findById(author.getId());
+        Optional<AuthorEntity> result = authorRepository.findById(authorEntity.getId());
 
         assertThat(result).isPresent();
-        assertThat(result.get()).isEqualTo(author);
+        assertThat(result.get()).isEqualTo(authorEntity);
     }
 
     @Test
     public void testThatMultipleAuthorsCanBeCreatedAndRecalled() {
-        Author authorA = TestDataUtil.createTestAuthorA();
-        Author authorB = TestDataUtil.createTestAuthorB();
-        Author authorC = TestDataUtil.createTestAuthorC();
+        AuthorEntity authorEntityA = TestDataUtil.createTestAuthorA();
+        AuthorEntity authorEntityB = TestDataUtil.createTestAuthorB();
+        AuthorEntity authorEntityC = TestDataUtil.createTestAuthorC();
 
-        authorRepository.saveAll(List.of(authorA, authorB, authorC));
+        authorRepository.saveAll(List.of(authorEntityA, authorEntityB, authorEntityC));
 
-        Iterable<Author> result = authorRepository.findAll();
+        Iterable<AuthorEntity> result = authorRepository.findAll();
         assertThat(result)
                 .hasSize(3)
-                .containsExactly(authorA, authorB, authorC);
+                .containsExactly(authorEntityA, authorEntityB, authorEntityC);
     }
 
     @Test
     public void testThatAuthorCanBeUpdated() {
-        Author author = TestDataUtil.createTestAuthorA();
-        authorRepository.save(author);
+        AuthorEntity authorEntity = TestDataUtil.createTestAuthorA();
+        authorRepository.save(authorEntity);
 
-        author.setName("UPDATED");
-        authorRepository.save(author);
+        authorEntity.setName("UPDATED");
+        authorRepository.save(authorEntity);
 
-        Optional<Author> result = authorRepository.findById(author.getId());
+        Optional<AuthorEntity> result = authorRepository.findById(authorEntity.getId());
 
         assertThat(result).isPresent();
-        assertThat(result.get()).isEqualTo(author);
+        assertThat(result.get()).isEqualTo(authorEntity);
     }
 
     @Test
     public void testThatAuthorCanBeDeleted() {
-        Author author = TestDataUtil.createTestAuthorA();
-        authorRepository.save(author);
-        authorRepository.deleteById(author.getId());
+        AuthorEntity authorEntity = TestDataUtil.createTestAuthorA();
+        authorRepository.save(authorEntity);
+        authorRepository.deleteById(authorEntity.getId());
 
-        Optional<Author> result = authorRepository.findById(author.getId());
+        Optional<AuthorEntity> result = authorRepository.findById(authorEntity.getId());
         assertThat(result).isNotPresent();
     }
 }
