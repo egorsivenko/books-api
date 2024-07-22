@@ -231,4 +231,27 @@ public class BookControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.title").value(testBookC.getTitle())
         );
     }
+
+    @Test
+    public void testThatDeleteExistingBookReturns204NoContent() throws Exception {
+        BookEntity book = TestDataUtil.createTestBookC(null);
+        bookService.save(book.getIsbn(), book);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/books/" + book.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
+        );
+    }
+
+    @Test
+    public void testThatDeleteNonExistingBookReturns204NoContent() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/books/978-1-23456-786-9")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
+        );
+    }
 }
