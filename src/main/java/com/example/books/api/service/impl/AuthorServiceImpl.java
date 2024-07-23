@@ -3,11 +3,11 @@ package com.example.books.api.service.impl;
 import com.example.books.api.domain.entity.AuthorEntity;
 import com.example.books.api.repository.AuthorRepository;
 import com.example.books.api.service.AuthorService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -24,8 +24,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public List<AuthorEntity> findAll() {
-        return StreamSupport.stream(authorRepository.findAll().spliterator(), false).toList();
+    public Page<AuthorEntity> findAll(Pageable pageable) {
+        return authorRepository.findAll(pageable);
     }
 
     @Override

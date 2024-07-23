@@ -4,6 +4,8 @@ import com.example.books.api.domain.dto.BookDto;
 import com.example.books.api.domain.entity.BookEntity;
 import com.example.books.api.mapper.Mapper;
 import com.example.books.api.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -49,11 +50,9 @@ public class BookController {
     }
 
     @GetMapping(path = "/books")
-    public List<BookDto> listBooks() {
-        List<BookEntity> bookEntities = bookService.findAll();
-        return bookEntities.stream()
-                .map(bookMapper::mapTo)
-                .toList();
+    public Page<BookDto> listBooks(Pageable pageable) {
+        Page<BookEntity> books = bookService.findAll(pageable);
+        return books.map(bookMapper::mapTo);
     }
 
     @GetMapping(path = "/books/{isbn}")

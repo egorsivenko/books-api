@@ -5,6 +5,8 @@ import com.example.books.api.domain.entity.AuthorEntity;
 import com.example.books.api.mapper.Mapper;
 import com.example.books.api.mapper.impl.AuthorMapper;
 import com.example.books.api.service.AuthorService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,11 +39,9 @@ public class AuthorController {
     }
 
     @GetMapping(path = "/authors")
-    public List<AuthorDto> listAuthors() {
-        List<AuthorEntity> authorEntities = authorService.findAll();
-        return authorEntities.stream()
-                .map(authorMapper::mapTo)
-                .toList();
+    public Page<AuthorDto> listAuthors(Pageable pageable) {
+        Page<AuthorEntity> authors = authorService.findAll(pageable);
+        return authors.map(authorMapper::mapTo);
     }
 
     @GetMapping(path = "/authors/{id}")
